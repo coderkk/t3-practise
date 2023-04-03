@@ -17,7 +17,7 @@ const Image2Text: NextPage = () => {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                 await axios({
                     method: "post",
-                    url: "http://pdf2text.coderkk.net/invoicePdf2/",
+                    url: "https://pdf2text.coderkk.net/invoicePdf2/",
                     data: formData,
                     headers: { "Content-Type": "multipart/form-data" },
                 }).then((res: () => void) => {

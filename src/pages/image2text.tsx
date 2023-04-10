@@ -52,8 +52,8 @@ const Image2Text: NextPage = () => {
     return (
       <>
       <Layout>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <div className="m-5">
             <p>Choose an Image</p>
             <input
               title="Choose an Image"
@@ -66,7 +66,7 @@ const Image2Text: NextPage = () => {
             />
             <Image src={imageData} alt="" width={376} height={190} />
           </div>
-          <div className="display-flex">
+          <div className="display-flex m-5">
             <p>{ocr}</p>
           </div>
         </div>

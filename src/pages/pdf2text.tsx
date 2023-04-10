@@ -17,7 +17,7 @@ const Image2Text: NextPage = () => {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                 await axios({
                     method: "post",
-                    url: "https://pdf2text.coderkk.net/invoicePdf2/",
+                    url: "https://pdf2text.coderkk.net/invoice/",
                     data: formData,
                     headers: { "Content-Type": "multipart/form-data" },
                 }).then((res: () => void) => {
@@ -31,21 +31,21 @@ const Image2Text: NextPage = () => {
     return (
       <>
       <Layout>
-        <div className="grid grid-cols-2 gap-4">
-          <form id="form">
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <form id="form" className="m-5">
             <p>Choose an Image</p>
             <input
               title="Choose an PDF"
               placeholder="Please select a file"
               type="file"
-              name="file"
-              id="file"
+              name="invoice"
+              id="invoice"
               onChange={handleImageChange}
               accept="application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf"
             />
           </form>
-          <div className="display-flex">
-            <p>{jsonData}</p>
+          <div className="display-flex m-5">
+            <p>{JSON.stringify(jsonData)}</p>
           </div>
         </div>
       </Layout>

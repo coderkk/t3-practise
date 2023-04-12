@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 
 const MultipleFileUploadForm = () => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
-  const onFilesUploadChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const onFilesUploadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
 
     if (!fileInput.files) {
@@ -35,44 +35,48 @@ const MultipleFileUploadForm = () => {
       return;
     }
 
-    /** Uploading files to the server */
-    try {
-      const formData = new FormData();
-      validFiles.forEach((file) => formData.append("media", file));
+    void( async () => {
 
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+      /** Uploading files to the server */
+      try {
+        const formData = new FormData();
+        validFiles.forEach((file) => formData.append("media", file));
 
-      const {
-        data,
-        error,
-      }: {
-        data: {
+        interface ResponseData {
           url: string | string[];
-        } | null;
-        error: string | null;
-      } = await res.json();
+        }
+        
+        interface ApiResponse {
+          data: ResponseData | null;
+          error: string | null;
+        }
 
-      if (error || !data) {
-        alert(error || "Sorry! something went wrong.");
-        return;
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const { data, error }: ApiResponse = await res.json() as ApiResponse;
+
+        if (error || !data) {
+          alert(error || "Sorry! something went wrong.");
+          return;
+        }
+
+        setPreviewUrls(
+          validFiles.map((validFile) => URL.createObjectURL(validFile))
+        ); // we will use this to show the preview of the images
+
+        /** Reset file input */
+        fileInput.type = "text";
+        fileInput.type = "file";
+
+        console.log("Files were uploaded successfylly:", data);
+      } catch (error) {
+        console.error(error);
+        alert("Sorry! something went wrong.");
       }
-
-      setPreviewUrls(
-        validFiles.map((validFile) => URL.createObjectURL(validFile))
-      ); // we will use this to show the preview of the images
-
-      /** Reset file input */
-      fileInput.type = "text";
-      fileInput.type = "file";
-
-      console.log("Files were uploaded successfylly:", data);
-    } catch (error) {
-      console.error(error);
-      alert("Sorry! something went wrong.");
-    }
+    });
   };
 
   return (

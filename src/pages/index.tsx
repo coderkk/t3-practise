@@ -2,9 +2,9 @@ import { type NextPage } from "next";
 import Link from "next/link";
 import Layout from '../layouts/default';
 
-import { api } from "~/utils/api";
+import { api } from "../utils/api";
 
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   return (
@@ -40,6 +40,15 @@ const Home: NextPage = () => {
               <h3 className="text-2xl font-bold">Pdf to Text →</h3>
               <div className="text-lg">
                 Extract the pdf to text and using https://pdf2text.coderkk.net
+              </div>
+            </Link>
+            <Link
+              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              href="/chart"
+            >
+              <h3 className="text-2xl font-bold">Chart →</h3>
+              <div className="text-lg">
+                Chart example
               </div>
             </Link>
           </div>

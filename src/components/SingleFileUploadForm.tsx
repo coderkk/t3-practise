@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { ChangeEvent, MouseEvent, useState } from "react";
+import React, { useState } from "react";
 
 const SingleFileUploadForm = () => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const onFileUploadChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onFileUploadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
 
     if (!fileInput.files) {
@@ -35,7 +35,7 @@ const SingleFileUploadForm = () => {
     e.currentTarget.type = "file";
   };
 
-  const onCancelFile = (e: MouseEvent<HTMLButtonElement>) => {
+  const onCancelFile = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!previewUrl && !file) {
       return;
@@ -44,42 +44,45 @@ const SingleFileUploadForm = () => {
     setPreviewUrl(null);
   };
 
-  const onUploadFile = async (e: MouseEvent<HTMLButtonElement>) => {
+  const onUploadFile = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!file) {
       return;
     }
 
-    try {
-      const formData = new FormData();
-      formData.append("media", file);
+    void( async () => {
+      try {
+        const formData = new FormData();
+        formData.append("media", file);
 
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const {
-        data,
-        error,
-      }: {
-        data: {
+        interface ResponseData {
           url: string | string[];
-        } | null;
-        error: string | null;
-      } = await res.json();
+        }
+        
+        interface ApiResponse {
+          data: ResponseData | null;
+          error: string | null;
+        }
 
-      if (error || !data) {
-        alert(error || "Sorry! something went wrong.");
-        return;
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const { data, error }: ApiResponse = await res.json() as ApiResponse;
+
+        if (error || !data) {
+          alert(error || "Sorry! something went wrong.");
+          return;
+        }
+
+        console.log("File was uploaded successfylly:", data);
+      } catch (error) {
+        console.error(error);
+        alert("Sorry! something went wrong.");
       }
-
-      console.log("File was uploaded successfylly:", data);
-    } catch (error) {
-      console.error(error);
-      alert("Sorry! something went wrong.");
-    }
+    })
   };
 
   return (

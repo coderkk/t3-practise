@@ -1,11 +1,13 @@
 import { type NextPage } from "next";
 import axios from 'axios';
+import type { AxiosResponse } from "axios";
 import { useState } from "react";
 import Layout from '../layouts/default';
 
-const Image2Text: NextPage = () => {
-    const [jsonData, setJsonData] = useState(null);
-  
+const Image2Text: NextPage = (props) => {
+    const [jsonData, setJsonData] = useState<JSON | null>(null);
+
+
     async function handleImageChange(e : React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault()
         if (e.target.files === null) return;
@@ -15,14 +17,11 @@ const Image2Text: NextPage = () => {
             const formData = new FormData(form);
             try {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                await axios({
-                    method: "post",
-                    url: "https://pdf2text.coderkk.net/invoice/",
-                    data: formData,
-                    headers: { "Content-Type": "multipart/form-data" },
-                }).then((res: () => void) => {
-                    setJsonData(res.data)
-                });
+                const res: AxiosResponse<JSON, null> = await axios.post("https://pdf2text.coderkk.net/invoice/",
+                    formData,
+                    { headers: { "Content-Type": "multipart/form-data" } },
+                );
+                setJsonData(res.data)
             } catch(error) {
                 console.log(error)
             }

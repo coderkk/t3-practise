@@ -14,7 +14,7 @@ import { useState } from "react";
 
 GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
 
-const PdfJS: NextPage = (props) => {
+const PdfJS: NextPage = ({}) => {
   const [pdfContent, setPdfContent] = useState("");
 
   const getPageText = async (pdf: PDFDocumentProxy, pageNumber: number) => {

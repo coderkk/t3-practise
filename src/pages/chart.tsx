@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Layout from '../layouts/default';
 
-const Chart: NextPage = (props) => {
+const Chart: NextPage = ({}) => {
     const data = [
         {
           name: 'Page A',

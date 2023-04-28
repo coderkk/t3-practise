@@ -4,7 +4,7 @@ import Layout from '../layouts/default';
 
 import { api } from "../utils/api";
 
-const Home: NextPage = (props) => {
+const Home: NextPage = ({}) => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   return (

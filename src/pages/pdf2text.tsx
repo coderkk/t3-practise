@@ -4,9 +4,8 @@ import type { AxiosResponse } from "axios";
 import { useState } from "react";
 import Layout from '../layouts/default';
 
-const Image2Text: NextPage = (props) => {
+const Image2Text: NextPage = ({}) => {
     const [jsonData, setJsonData] = useState<JSON | null>(null);
-
 
     async function handleImageChange(e : React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault()

@@ -8,14 +8,6 @@ import { mkdir, stat } from "fs/promises";
 export const FormidableError: typeof formidable.errors.FormidableError =
   formidable.errors.FormidableError;
 
-interface FormFields {
-  [fieldName: string]: string | string[];
-}
-
-interface FormFiles {
-  [fieldName: string]: formidable.File[];
-}
-
 export const parseForm = async (
   req: NextApiRequest
 ): Promise<{ fields: formidable.Fields; files: formidable.Files}> => {

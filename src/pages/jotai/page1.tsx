@@ -3,13 +3,9 @@ import Layout from '../../layouts/default';
 import { useAtom } from "jotai/react";
 import { nameAtom } from "../../atoms/testAtom"
 import Link from "next/link";
-import { atom } from 'jotai';
-
-const localPage1Atom = atom("default");
 
 const Page1: NextPage = ({}) => {
   const [name, setName] = useAtom(nameAtom);
-  const [localPage1, setLocalPage1] = useAtom(localPage1Atom)
   
   // setName("Page1");
   return (
@@ -20,11 +16,6 @@ const Page1: NextPage = ({}) => {
           <div className="mb-5">
             Current Jotai: {name}
           </div>
-
-          <div className="mb-5">
-            Current Jotai: {localPage1}
-          </div>
-
 
           <button 
             type="button"
